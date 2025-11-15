@@ -8,11 +8,13 @@ import {
   Redo,
   Palette,
   Menu,
-  LogOut
+  LogOut,
+  FolderOpen,
 } from 'lucide-react';
 import { useCarouselStore } from '@/store/carouselStore';
 import { useAuthStore } from '@/store/authStore';
 import { supabase } from '@/lib/supabase/client';
+import { DraftsPanel } from './DraftsPanel';
 
 interface EditorHeaderProps {
   onShowInput: () => void;
@@ -31,6 +33,7 @@ export function EditorHeader({ onShowInput }: EditorHeaderProps) {
   } = useCarouselStore();
   const { user, logout } = useAuthStore();
   const [isSaving, setIsSaving] = useState(false);
+  const [showDrafts, setShowDrafts] = useState(false);
 
   const handleSave = async () => {
     if (!carousel || !user) return;
@@ -114,6 +117,14 @@ export function EditorHeader({ onShowInput }: EditorHeaderProps) {
         </button>
 
         <button
+          onClick={() => setShowDrafts(true)}
+          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          title="Open Drafts"
+        >
+          <FolderOpen className="w-5 h-5" />
+        </button>
+
+        <button
           onClick={handleSave}
           disabled={isSaving || !carousel}
           className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -157,6 +168,9 @@ export function EditorHeader({ onShowInput }: EditorHeaderProps) {
           </>
         )}
       </div>
+
+      {/* Drafts Modal */}
+      {showDrafts && <DraftsPanel onClose={() => setShowDrafts(false)} />}
     </header>
   );
 }

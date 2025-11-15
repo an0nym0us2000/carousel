@@ -3,21 +3,33 @@
 import {
   Type,
   Image,
-  Shapes,
   Sparkles,
   AlignLeft,
   AlignCenter,
   AlignRight,
   Bold,
-  Italic
+  Italic,
+  Smile,
+  Settings,
+  Layers,
 } from 'lucide-react';
 import { useState } from 'react';
 
 interface CanvasToolbarProps {
   canvas: fabric.Canvas | null;
+  onShowImageUpload: () => void;
+  onShowIconLibrary: () => void;
+  onShowBackgroundPanel: () => void;
+  onShowSlideSettings: () => void;
 }
 
-export function CanvasToolbar({ canvas }: CanvasToolbarProps) {
+export function CanvasToolbar({
+  canvas,
+  onShowImageUpload,
+  onShowIconLibrary,
+  onShowBackgroundPanel,
+  onShowSlideSettings,
+}: CanvasToolbarProps) {
   const [showRewrite, setShowRewrite] = useState(false);
   const [isRewriting, setIsRewriting] = useState(false);
 
@@ -164,24 +176,39 @@ export function CanvasToolbar({ canvas }: CanvasToolbarProps) {
         {/* General Tools */}
         <div className="flex items-center gap-2 ml-auto">
           <button
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-            title="Add Text"
-          >
-            <Type className="w-4 h-4" />
-          </button>
-
-          <button
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            onClick={onShowImageUpload}
+            className="px-3 py-2 hover:bg-gray-100 rounded-lg transition-colors flex items-center gap-2"
             title="Add Image"
           >
             <Image className="w-4 h-4" />
+            <span className="text-sm font-medium">Image</span>
           </button>
 
           <button
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-            title="Add Shape"
+            onClick={onShowIconLibrary}
+            className="px-3 py-2 hover:bg-gray-100 rounded-lg transition-colors flex items-center gap-2"
+            title="Add Icon"
           >
-            <Shapes className="w-4 h-4" />
+            <Smile className="w-4 h-4" />
+            <span className="text-sm font-medium">Icon</span>
+          </button>
+
+          <button
+            onClick={onShowBackgroundPanel}
+            className="px-3 py-2 hover:bg-gray-100 rounded-lg transition-colors flex items-center gap-2"
+            title="Background Elements"
+          >
+            <Layers className="w-4 h-4" />
+            <span className="text-sm font-medium">Background</span>
+          </button>
+
+          <button
+            onClick={onShowSlideSettings}
+            className="px-3 py-2 hover:bg-gray-100 rounded-lg transition-colors flex items-center gap-2"
+            title="Slide Settings"
+          >
+            <Settings className="w-4 h-4" />
+            <span className="text-sm font-medium">Settings</span>
           </button>
         </div>
       </div>
